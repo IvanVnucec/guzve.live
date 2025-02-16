@@ -48,7 +48,6 @@ model.to(device)
 for group in cam_groups:
     print(f"Group: {group['name']}")
     for cam in group['cams']:
-        print(f"  Cam: {cam['name']}, {cam['url']}")
         url = cam['url']
         import requests
         from io import BytesIO
@@ -66,11 +65,12 @@ for group in cam_groups:
         # Get predicted class
         predicted_class_idx = logits.argmax(-1).item()
         predicted_class = model.config.id2label[predicted_class_idx]
-        print(f"Predicted traffic level: {predicted_class}")
+
+        print(f"  {cam['name']}, {cam['url']}, {predicted_class}")
 
         # Get probabilities
-        probabilities = F.softmax(logits, dim=-1)
-        for idx, prob in enumerate(probabilities[0]):
-            class_label = model.config.id2label[idx]
-            print(f"Probability for {class_label}: {prob.item():.4f}")
-        print()
+        #probabilities = F.softmax(logits, dim=-1)
+        #for idx, prob in enumerate(probabilities[0]):
+        #    class_label = model.config.id2label[idx]
+        #    print(f"Probability for {class_label}: {prob.item():.4f}")
+        #print()
