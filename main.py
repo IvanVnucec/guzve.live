@@ -1,76 +1,83 @@
-from urllib.request import urlopen, urlretrieve
-from bs4 import BeautifulSoup
+import urllib.request
+import json
+import os
 
-with urlopen('https://www.hak.hr/info/kamere/') as response:
-    html = response.read().decode('utf-8')
+class Camera:
+    def __init__(self, id:int, title:str, timestamp:str) -> None:
+        self.id:str = str(id)
+        self.title:str = title
+        self.timestamp:str = timestamp
+        self.url:str = f"https://api.hak.hr/rest/2.8/webcams/{self.id}/?token=9ba354b85afbd2"
 
-soup = BeautifulSoup(html, 'html.parser')
-ul = soup.find('ul', class_='groups')
+    def __str__(self) -> str:
+        return f"{self.title}, {self.url}"
 
-cam_groups = []
-for li in ul.find_all('li'):
-    a = li.find('a')
-    name = a.get_text(strip=True)
-    url = f'https://www.hak.hr/info/kamere/grupa/{a["data-id"]}'
-    cam_groups.append({
-        'name': name,
-        'url': url,
-        'cams': []
-    })
+def fetch_cameras() -> list[Camera]:
+    cameras:list[Camera] = []
 
-for group in cam_groups:
-    with urlopen(group['url']) as response:
-        html = response.read().decode('utf-8')
-    soup = BeautifulSoup(html, 'html.parser')
-    imgs = soup.find_all('img', class_='cam lazyload')
-    for img in imgs:
-        name = img['alt']
-        url = f'https://www.hak.hr/info/kamere/{img["data-id"]}'
-        group['cams'].append({
-            'name': name,
-            'url': url
-        })
+    url = "https://api.hak.hr/rest/2.8/webcams/?token=9ba354b85afbd2"
+    with urllib.request.urlopen(url) as response:
+        groups = json.loads(response.read().decode())
 
-from transformers import AutoImageProcessor, AutoModelForImageClassification
-from PIL import Image
-import torch
-import torch.nn.functional as F
+    for group in groups:
+        webcam_groups = group["WebcamGroups"]
+        for webcam_group in webcam_groups:
+            cams = webcam_group["Cams"]
+            for cam in cams:
+                id = cam["CamID"]
+                title = cam["Title"]
+                timestamp = cam["LastUpdate"]
+                cameras.append(Camera(id, title, timestamp))
 
-# Load the model and processor
-model_name = "ilsilfverskiold/traffic-levels-image-classification"
-processor = AutoImageProcessor.from_pretrained(model_name)
-model = AutoModelForImageClassification.from_pretrained(model_name)
+    return cameras
 
-# Move model to GPU if available
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model.to(device)
+def get_number_of_vehicles(img_data) -> int:
+    from ultralytics import YOLO
+    import cv2
+    import numpy as np
 
-for group in cam_groups:
-    print(f"Group: {group['name']}")
-    for cam in group['cams']:
-        url = cam['url']
-        import requests
-        from io import BytesIO
-        response = requests.get(url)
-        image = Image.open(BytesIO(response.content)).convert("RGB")
-        inputs = processor(images=image, return_tensors="pt")
-        inputs = {k: v.to(device) for k, v in inputs.items()}
+    model = YOLO("yolo11n.pt")
 
-        # Perform inference
-        model.eval()
-        with torch.no_grad():
-            outputs = model(**inputs)
-            logits = outputs.logits
+    img_array = np.frombuffer(img_data, np.uint8)
+    img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
 
-        # Get predicted class
-        predicted_class_idx = logits.argmax(-1).item()
-        predicted_class = model.config.id2label[predicted_class_idx]
+    class_names = model.names
+    target_classes = ["car", "bus", "truck"]
+    class_ids = [k for k, v in class_names.items() if v in target_classes]
 
-        print(f"  {cam['name']}, {cam['url']}, {predicted_class}")
+    results = model.predict(source=img, device="cuda", classes=class_ids, verbose=False)
+    num_vehicles = len(results[0].boxes)
 
-        # Get probabilities
-        #probabilities = F.softmax(logits, dim=-1)
-        #for idx, prob in enumerate(probabilities[0]):
-        #    class_label = model.config.id2label[idx]
-        #    print(f"Probability for {class_label}: {prob.item():.4f}")
-        #print()
+    return num_vehicles
+
+def load_json(file_path):
+    if os.path.exists(file_path):
+        with open(file_path, "r", encoding="utf-8") as file:
+            return json.load(file)
+    else:
+        return {}
+
+def save_json(file_path, data):
+    with open(file_path, "w", encoding="utf-8") as file:
+        json.dump(data, file, ensure_ascii=False)
+
+def main():
+    while True:
+        db = load_json("db.json")
+
+        cameras = fetch_cameras()
+        for i,cam in enumerate(cameras, start=1):
+            with urllib.request.urlopen(cam.url) as response:
+                img_data = response.read()
+            vehicles_num = get_number_of_vehicles(img_data)
+
+            if cam.id not in db:
+                db[cam.id] = {"title": cam.title, "vehicles_history": []}
+            db[cam.id]["vehicles_history"].append([cam.timestamp, vehicles_num])
+
+            print(f"{i}/{len(cameras)}", cam, vehicles_num)
+
+        save_json("db.json", db)
+
+if __name__ == "__main__":
+    main()
