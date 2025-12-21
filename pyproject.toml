@@ -1,13 +1,14 @@
 [project]
-name = "guzvehr"
+name = "ghr"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "django==6.0",
-    "numpy>=2.3.5",
-    "opencv-python>=4.11.0.86",
+    "jinja2>=3.1.6",
+    "numpy>=2.4.0",
+    "opencv-python-headless>=4.11.0.86",
     "torch>=2.9.1",
-    "ultralytics>=8.3.237",
+    "torchvision>=0.24.1",
+    "ultralytics>=8.3.240",
 ]

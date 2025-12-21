@@ -9,7 +9,5 @@ wheels/
 # Virtual environments
 .venv
 
-db.sqlite3
-huey.db
-huey.db-*
-yolo11n.pt
+build/
+yolo*.pt

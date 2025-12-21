@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>guzve.hr</title>
+</head>
+<body>
+    <h1>guzve.hr</h1>
+    {% for cam in cams %}
+    <img loading="lazy" src="{{ cam.url }}" alt="{{ cam.title }}" width="447" height="251">
+    {% endfor %}
+</body>
+</html>
