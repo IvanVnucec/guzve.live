@@ -1,5 +1,9 @@
 
 from urllib.request import urlopen
+import os
+
+DEBUG = os.environ.get("DEBUG", 0)
+os.makedirs("build", exist_ok=True)
 
 print("Fetching cams metadata...")
 import json
@@ -35,11 +39,16 @@ for i, cam in enumerate(cams, start=1):
         conf=0.3)
     cam["nveh"] = len(results[0].boxes)
     print(f"{i}/{len(cams)} {cam["title"]}: {cam["nveh"]}")
+    if DEBUG:
+        import uuid
+        annotated_image = results[0].plot()
+        os.makedirs("build/images", exist_ok=True)
+        filename = f"{uuid.uuid4()}.jpg"
+        cv2.imwrite(f"build/images/{filename}", annotated_image)
+        cam["url"] = f"images/{filename}"
 
 print("Writing HTML")
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-import os
-os.makedirs("build", exist_ok=True)
 env = Environment(loader=FileSystemLoader("templates"), autoescape=select_autoescape())
 with open("build/index.html", "w", encoding="utf-8") as f:
     f.write(env.get_template("index.html").render({"cams": sorted(cams, key=lambda c: (-c["nveh"], c["url"]))}))
