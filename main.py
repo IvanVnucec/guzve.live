@@ -69,4 +69,6 @@ write_template("drzavne_ceste.html", cams, lambda c: c["ctg"] in ["D8", "HC", "M
 write_template("granicni_prijelazi.html", cams, lambda c: c["ctg"]=="GP", "Granični prijelazi")
 write_template("mostovi.html", cams, lambda c: c["ctg"]=="MT", "Mostovi")
 write_template("trajekti.html", cams, lambda c: c["ctg"]=="TP", "Trajekti")
+import shutil
+shutil.copy2("templates/snail.gif", "build/snail.gif")
 print("Done")
