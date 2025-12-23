@@ -51,23 +51,34 @@
 {% endmacro %}
 
 <body>
-    <h1 class="heading">
-        <img class="heading-img" src="snail.gif" alt="snail">
-        guzve.live
-    </h1>
-    <p>Live prikaz gužvi na hrvatskim cestama.</p>
-    <div class="nav-container">
-        {{ nav_link("index.html", "Sve") }}
-        {{ nav_link("granicni_prijelazi.html", "Granični prijelazi") }}
-        {{ nav_link("autoceste.html", "Autoceste") }}
-        {{ nav_link("drzavne_ceste.html", "Državne ceste") }}
-        {{ nav_link("trajekti.html", "Trajekti") }}
-        {{ nav_link("mostovi.html", "Mostovi") }}
-    </div>
-    <div>
-        {% for cam in cams %}
-        <img loading="lazy" title="{{ cam.title }}" src="{{ cam.url }}" alt="{{ cam.title }}" width="352" height="198">
-        {% endfor %}
-    </div>
+    <header>
+        <h1 class="heading">
+            <img class="heading-img" src="snail.gif" alt="snail">
+            guzve.live
+        </h1>
+        <p>Live prikaz gužvi na hrvatskim cestama.</p>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            {{ nav_link("index.html", "Sve") }}
+            {{ nav_link("granicni_prijelazi.html", "Granični prijelazi") }}
+            {{ nav_link("autoceste.html", "Autoceste") }}
+            {{ nav_link("drzavne_ceste.html", "Državne ceste") }}
+            {{ nav_link("trajekti.html", "Trajekti") }}
+            {{ nav_link("mostovi.html", "Mostovi") }}
+        </div>
+    </nav>
+
+    <main>
+        <div>
+            {% for cam in cams %}
+            <img loading="lazy" title="{{ cam.title }}" src="{{ cam.url }}" alt="{{ cam.title }}" width="352" height="198">
+            {% endfor %}
+        </div>
+    </main>
+
+    <footer>
+    </footer>
 </body>
 </html>
