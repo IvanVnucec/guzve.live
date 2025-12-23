@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if title %}
+    <title>{{ title }} - guzve.live</title>
+    {% else %}
+    <title>guzve.live</title>
+    {% endif %}
+    <style>
+        .nav-link.active { color: #FFFFFF; font-weight: bold; }
+    </style>
+</head>
+
+{% macro nav_link(filename, title) %}
+    {% set current = self._TemplateReference__context.name %}
+    <a style="margin: 10px; {{ "color: #FFFFFF; font-weight: bold;" if current==filename }}" href="{{ filename }}">{{ title }}</a>
+{% endmacro %}
+
+<body>
+    <h1>guzve.live</h1>
+    <p>Live prikaz gužvi na hrvatskim cestama.</p>
+    <div style="margin: 10px;">
+        {{ nav_link("index.html", "Svi") }}
+        {{ nav_link("granicni_prijelazi.html", "Granični prijelazi") }}
+        {{ nav_link("autoceste.html", "Autoceste") }}
+        {{ nav_link("drzavne_ceste.html", "Državne ceste") }}
+        {{ nav_link("trajekti.html", "Trajekti") }}
+        {{ nav_link("mostovi.html", "Mostovi") }}
+    </div>
+    <div>{% block content %}{% endblock %}</div>
+</body>
+</html>

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% set title = "Trajekti" %}
 {% block content %}
     {% for cam in cams %}
         <img loading="lazy" title="{{ cam.title }}" src="{{ cam.url }}" alt="{{ cam.title }}" width="447" height="251">
