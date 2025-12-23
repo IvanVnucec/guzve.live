@@ -71,4 +71,5 @@ write_template("mostovi.html", cams, lambda c: c["ctg"]=="MT", "Mostovi")
 write_template("trajekti.html", cams, lambda c: c["ctg"]=="TP", "Trajekti")
 import shutil
 shutil.copy2("templates/snail.gif", "build/snail.gif")
+shutil.copy2("templates/og-image.png", "build/og-image.png")
 print("Done")
