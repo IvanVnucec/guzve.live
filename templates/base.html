@@ -8,19 +8,10 @@
     {% else %}
     <title>guzve.live</title>
     {% endif %}
-    <style>
-        @media (max-width: 920px) {
-            img {
-                width: 100%;
-                height: auto;
-            }
-        }
-    </style>
 </head>
 
 {% macro nav_link(filename, title) %}
-    {% set current = self._TemplateReference__context.name %}
-    <a style="margin: 10px; {{ "color: #FFFFFF; font-weight: bold;" if current==filename }}" href="{{ filename }}">{{ title }}</a>
+    <a style="margin: 10px; {{ "color: #FFFFFF; font-weight: bold;" if template_name==filename }}" href="{{ filename }}">{{ title }}</a>
 {% endmacro %}
 
 <body>
@@ -34,6 +25,10 @@
         {{ nav_link("trajekti.html", "Trajekti") }}
         {{ nav_link("mostovi.html", "Mostovi") }}
     </div>
-    <div>{% block content %}{% endblock %}</div>
+    <div>
+        {% for cam in cams %}
+        <img loading="lazy" title="{{ cam.title }}" src="{{ cam.url }}" alt="{{ cam.title }}" width="352" height="198">
+        {% endfor %}
+    </div>
 </body>
 </html>

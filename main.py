@@ -58,15 +58,15 @@ if COUNT > 0:
 print("Writing HTML")
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 env = Environment(loader=FileSystemLoader("templates"), autoescape=select_autoescape())
-def write_template(filename, cams, lexpr=None):
+def write_template(filename, cams, lexpr=None, title=None):
     with open(f"build/{filename}", "w", encoding="utf-8") as f:
         cams = filter(lexpr, cams)
         cams = sorted(cams, key=lambda c: (-c["nveh"], c["url"]))
-        f.write(env.get_template(filename).render({"cams": cams}))
+        f.write(env.get_template("base.html").render({"template_name": filename, "cams": cams, "title": title}))
 write_template("index.html", cams)
-write_template("autoceste.html", cams, lambda c: c["ctg"].startswith('A'))
-write_template("drzavne_ceste.html", cams, lambda c: c["ctg"] in ["D8", "HC", "MJ"])
-write_template("granicni_prijelazi.html", cams, lambda c: c["ctg"]=="GP")
-write_template("mostovi.html", cams, lambda c: c["ctg"]=="MT")
-write_template("trajekti.html", cams, lambda c: c["ctg"]=="TP")
+write_template("autoceste.html", cams, lambda c: c["ctg"].startswith('A'), "Autoceste")
+write_template("drzavne_ceste.html", cams, lambda c: c["ctg"] in ["D8", "HC", "MJ"], "Državne ceste")
+write_template("granicni_prijelazi.html", cams, lambda c: c["ctg"]=="GP", "Granični prijelazi")
+write_template("mostovi.html", cams, lambda c: c["ctg"]=="MT", "Mostovi")
+write_template("trajekti.html", cams, lambda c: c["ctg"]=="TP", "Trajekti")
 print("Done")
