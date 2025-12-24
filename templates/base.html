@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Live prikaz gužvi na hrvatskim autocestama, graničnim prijelazima, trajektima i mostovima.">
-    <meta name="author" content="guzve.live">
+    <meta name="author" content="Ivan Vnučec">
 
     <meta property="og:title" content="guzve.live">
     <meta property="og:description" content="Live prikaz gužvi na hrvatskim autocestama, graničnim prijelazima, trajektima i mostovima.">
@@ -28,11 +28,11 @@
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐌</text></svg>">
 
-    {% if title %}
+    {% if title -%}
     <title>{{ title }} - guzve.live</title>
-    {% else %}
+    {%- else -%}
     <title>guzve.live</title>
-    {% endif %}
+    {%- endif %}
 
     <style>
         body {
@@ -71,10 +71,6 @@
     </style>
 </head>
 
-{% macro nav_link(filename, title) %}
-<a class="{{ 'active-nav' if template_name==filename }}" href="{{ filename }}">{{ title }}</a>
-{% endmacro %}
-
 <body>
     <header>
         <h1 class="heading">
@@ -88,6 +84,9 @@
     </header>
 
     <nav>
+        {%- macro nav_link(filename, title) -%}
+            <a class="{{ 'active-nav' if template_name==filename }}" href="{{ filename }}">{{ title }}</a>
+        {%- endmacro %}
         <div class="nav-container">
             {{ nav_link("index.html", "Sve") }}
             {{ nav_link("granicni_prijelazi.html", "Granični prijelazi") }}
@@ -100,9 +99,9 @@
 
     <main>
         <div>
-            {% for cam in cams %}
+            {%- for cam in cams %}
             <img loading="lazy" title="{{ cam.title }}" src="{{ cam.url }}" alt="{{ cam.title }}" width="352" height="198">
-            {% endfor %}
+            {%- endfor %}
         </div>
     </main>
 
