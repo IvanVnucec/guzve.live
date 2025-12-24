@@ -10,25 +10,27 @@
     <meta property="og:description" content="Live prikaz gužvi na hrvatskim autocestama, graničnim prijelazima, trajektima i mostovima.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.guzve.live">
-    <meta property="og:image" content="https://www.guzve.live/og-image.png">
+    <meta property="og:image" content="https://www.guzve.live/og-image.jpg">
     <meta property="og:locale" content="hr_HR">
 
     <meta name="twitter:card" content="summary">
     <meta name="twitter:description" content="Live prikaz gužvi na hrvatskim autocestama, graničnim prijelazima, trajektima i mostovima.">
     <meta name="twitter:title" content="guzve.live">
-    <meta name="twitter:image" content="https://www.guzve.live/og-image.png">
+    <meta name="twitter:image" content="https://www.guzve.live/og-image.jpg">
     <meta name="twitter:site" content="@i_anonimni">
 
     <link rel="canonical" href="https://www.guzve.live/{{ template_name }}">
 
     <meta name="robots" content="index, follow">
 
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐌</text></svg>">
+
     {% if title %}
     <title>{{ title }} - guzve.live</title>
     {% else %}
     <title>guzve.live</title>
     {% endif %}
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐌</text></svg>">
+
     <style>
         body {
             background-color: #181a1b;
@@ -73,7 +75,10 @@
 <body>
     <header>
         <h1 class="heading">
-            <img class="heading-img" src="snail.gif" alt="snail">
+            <picture>
+                <source srcset="https://fonts.gstatic.com/s/e/notoemoji/latest/1f40c/512.webp" type="image/webp">
+                <img class="heading-img" src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f40c/512.gif" alt="🐌">
+            </picture>
             guzve.live
         </h1>
         <p>Live prikaz gužvi na hrvatskim cestama.</p>

@@ -70,6 +70,5 @@ write_template("granicni_prijelazi.html", cams, lambda c: c["ctg"]=="GP", "Grani
 write_template("mostovi.html", cams, lambda c: c["ctg"]=="MT", "Mostovi")
 write_template("trajekti.html", cams, lambda c: c["ctg"]=="TP", "Trajekti")
 import shutil
-shutil.copy2("templates/snail.gif", "build/snail.gif")
-shutil.copy2("templates/og-image.png", "build/og-image.png")
+shutil.copy2("templates/og-image.jpg", "build/og-image.jpg")
 print("Done")
