@@ -12,3 +12,23 @@ dependencies = [
     "torchvision>=0.24.1",
     "ultralytics>=8.3.240",
 ]
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cpu" },
+]
+torchvision = [
+    { index = "pytorch-cpu" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[dependency-groups]
+cpu = [
+  "torch==2.9.1",
+  "torchvision==0.24.1+cpu; sys_platform == 'linux' and platform_machine == 'x86_64'",
+  "torchvision==0.24.1; platform_machine != 'x86_64'",
+]
