@@ -61,7 +61,7 @@ env = Environment(loader=FileSystemLoader("templates"), autoescape=select_autoes
 def write_template(filename, cams, lexpr=None, title=None):
     with open(f"build/{filename}", "w", encoding="utf-8") as f:
         cams = filter(lexpr, cams)
-        cams = sorted(cams, key=lambda c: (-c["nveh"], c["url"]))
+        cams = sorted(cams, key=lambda c: (-c["nveh"], c["title"], c["url"]))
         f.write(env.get_template("base.html").render({"template_name": filename, "cams": cams, "title": title}))
 write_template("index.html", cams)
 write_template("autoceste.html", cams, lambda c: c["ctg"].startswith('A'), "Autoceste")
