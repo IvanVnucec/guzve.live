@@ -77,6 +77,20 @@
             font-size: 14px;
             padding: 3px;
         }
+        #clear-search {
+            margin-bottom: 16px;
+            margin-left: 2px;
+            background-color: #181a1b;
+            color: #e8e6e3;
+            border: 1px solid #e8e6e3;
+            border-radius: 4px;
+            font-size: 14px;
+            padding: 3px 4px;
+            cursor: pointer;
+        }
+        #clear-search:hover {
+            background-color: #333;
+        }
         label[for="search-input"] {
             color: #e8e6e3;
         }
@@ -153,6 +167,7 @@
     <main>
         <label for="search-input">Pretraži:</label>
         <input type="search" id="search-input" placeholder="Npr. Bajakovo">
+        <button id="clear-search">Clear</button>
         <div>
             {%- for cam in cams %}
             <img loading="lazy" title="{{ cam.title }}" src="{{ cam.url }}" alt="{{ cam.title }}" width="352" height="198">
@@ -171,6 +186,7 @@
     <script>
          document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('search-input');
+            const clearSearch = document.getElementById('clear-search');
             const images = document.querySelectorAll('main div img');
             const modal = document.getElementById('modal-image-cont');
             const modalImg = document.getElementById('modal-image');
@@ -216,6 +232,11 @@
                 if (e.key === 'Escape') {
                     closeModalFunc();
                 }
+            });
+
+            clearSearch.addEventListener('click', function() {
+                searchInput.value = '';
+                searchInput.dispatchEvent(new Event('input'));
             });
 
             searchInput.addEventListener('input', function() {
