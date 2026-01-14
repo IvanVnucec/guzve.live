@@ -68,6 +68,17 @@
             color: #e8e6e3;
             font-weight: bold;
         }
+        #search-input {
+            margin-bottom: 16px;
+            background-color: #181a1b;
+            color: #e8e6e3;
+            border: 1px solid #e8e6e3;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        label[for="search-input"] {
+            color: #e8e6e3;
+        }
     </style>
 
     <script defer src="http://umami-zs4gscogcwo448kgw4448w44.135.181.25.119.sslip.io/script.js" data-website-id="84374b3b-d904-448e-b2c5-d773b58763f1"></script>
@@ -100,6 +111,8 @@
     </nav>
 
     <main>
+        <label for="search-input">Pretraži:</label>
+        <input type="search" id="search-input" placeholder="Npr. Bajakovo">
         <div>
             {%- for cam in cams %}
             <img loading="lazy" title="{{ cam.title }}" src="{{ cam.url }}" alt="{{ cam.title }}" width="352" height="198">
@@ -109,5 +122,30 @@
 
     <footer>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const images = document.querySelectorAll('main div img');
+
+            function normalize(text) {
+                return text.toLowerCase()
+                    .replace(/č/g, 'c')
+                    .replace(/ć/g, 'c')
+                    .replace(/đ/g, 'd')
+                    .replace(/š/g, 's')
+                    .replace(/ž/g, 'z');
+            }
+
+            searchInput.addEventListener('input', function() {
+                const query = normalize(this.value);
+                images.forEach(img => {
+                    const title = normalize(img.getAttribute('title') || '');
+                    const display = query === '' || title.includes(query) ? 'inline' : 'none';
+                    img.style.display = display;
+                });
+            });
+        });
+    </script>
 </body>
 </html>

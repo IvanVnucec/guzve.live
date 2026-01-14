@@ -16,7 +16,7 @@ for ctg in ctgs:
         for cam in wgs["Cams"]:
             cams.append({
                 "title": cam["Title"],
-                "url": f"https://m.hak.hr/cam.asp?id={cam["CamID"]}",
+                "url": f'https://m.hak.hr/cam.asp?id={cam["CamID"]}',
                 "nveh": 0,
                 "ctg": ctg["Key"],
             })
@@ -31,7 +31,7 @@ if COUNT > 0:
     import ultralytics as ul
     model = ul.YOLO("yolo11n.pt")
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    print(f"Using {device} device...")
+    print(f'Using {device} device...')
     model.to(device)
     class_ids = [k for k, v in model.names.items() if v in ["car", "bus", "truck"]]
     for i, cam in enumerate(cams, start=1):
@@ -46,20 +46,20 @@ if COUNT > 0:
             verbose=False,
             conf=0.3)
         cam["nveh"] = len(results[0].boxes)
-        print(f"{i}/{len(cams)} {cam["title"]}: {cam["nveh"]}")
+        print(f'{i}/{len(cams)} {cam["title"]}: {cam["nveh"]}')
         if DEBUG > 0:
             import uuid
             annotated_image = results[0].plot()
             os.makedirs("build/images", exist_ok=True)
-            filename = f"{uuid.uuid4()}.jpg"
-            cv2.imwrite(f"build/images/{filename}", annotated_image)
-            cam["url"] = f"images/{filename}"
+            filename = f'{uuid.uuid4()}.jpg'
+            cv2.imwrite(f'build/images/{filename}', annotated_image)
+            cam["url"] = f'images/{filename}'
 
 print("Writing HTML")
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 env = Environment(loader=FileSystemLoader("templates"), autoescape=select_autoescape())
 def write_template(filename, cams, lexpr=None, title=None):
-    with open(f"build/{filename}", "w", encoding="utf-8") as f:
+    with open(f'build/{filename}', "w", encoding="utf-8") as f:
         cams = filter(lexpr, cams)
         cams = sorted(cams, key=lambda c: (-c["nveh"], c["title"], c["url"]))
         f.write(env.get_template("base.html").render({"template_name": filename, "cams": cams, "title": title}))
