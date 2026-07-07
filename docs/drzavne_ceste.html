@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Live prikaz gužvi na hrvatskim autocestama, graničnim prijelazima, trajektima i mostovima.">
+    <meta name="author" content="Ivan Vnučec">
+
+    <meta property="og:title" content="guzve.live">
+    <meta property="og:description" content="Live prikaz gužvi na hrvatskim autocestama, graničnim prijelazima, trajektima i mostovima.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.guzve.live">
+    <meta property="og:image" content="https://www.guzve.live/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Live prikaz gužvi na hrvatskim cestama">
+    <meta property="og:locale" content="hr_HR">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:description" content="Live prikaz gužvi na hrvatskim autocestama, graničnim prijelazima, trajektima i mostovima.">
+    <meta name="twitter:title" content="guzve.live">
+    <meta name="twitter:image" content="https://www.guzve.live/og-image.jpg">
+    <meta name="twitter:site" content="@i_anonimni">
+
+    <link rel="canonical" href="https://www.guzve.live/drzavne_ceste.html">
+
+    <meta name="robots" content="index, follow">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐌</text></svg>">
+
+    <title>Državne ceste - guzve.live</title>
+
+    <style>
+        body {
+            background-color: #181a1b;
+            color: #e8e6e3;
+        }
+        a {
+            color: #3391ff;
+            text-decoration: none;
+        }
+        a:hover, a:focus {
+            text-decoration: underline;
+        }
+        .heading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+            font-size: 2.5rem;
+        }
+        .heading-img {
+            height: 1.2em;
+            width: auto;
+            vertical-align: middle;
+        }
+        .nav-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem 1.5rem;
+            margin: 20px 0;
+        }
+        .active-nav {
+            color: #e8e6e3;
+            font-weight: bold;
+        }
+        #search-input {
+            margin-bottom: 16px;
+            background-color: #181a1b;
+            color: #e8e6e3;
+            border: 1px solid #e8e6e3;
+            border-radius: 4px;
+            font-size: 14px;
+            padding: 3px;
+        }
+        #clear-search {
+            margin-bottom: 16px;
+            margin-left: 2px;
+            background-color: #181a1b;
+            color: #e8e6e3;
+            border: 1px solid #e8e6e3;
+            border-radius: 4px;
+            font-size: 14px;
+            padding: 3px 4px;
+            cursor: pointer;
+        }
+        #clear-search:hover {
+            background-color: #333;
+        }
+        label[for="search-input"] {
+            color: #e8e6e3;
+        }
+        #modal-image-cont {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.85);
+        }
+        #modal-image {
+            margin: auto;
+            display: block;
+            width: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        @media (min-width: 726px) and (max-width: 1199px) {
+            #modal-image {
+                width: 80%;
+            }
+        }
+        #close-modal {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #e8e6e3;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        #close-modal:hover,
+        #close-modal:focus {
+            color: #bbb;
+            text-decoration: none;
+        }
+    </style>
+
+    <script defer src="http://umami-zs4gscogcwo448kgw4448w44.135.181.25.119.sslip.io/script.js" data-website-id="84374b3b-d904-448e-b2c5-d773b58763f1"></script>
+</head>
+
+<body>
+    <header>
+        <h1 class="heading">
+            <picture>
+                <source srcset="https://fonts.gstatic.com/s/e/notoemoji/latest/1f40c/512.webp" type="image/webp">
+                <img class="heading-img" src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f40c/512.gif" alt="🐌">
+            </picture>
+            guzve.live
+        </h1>
+        <p>Live prikaz gužvi na hrvatskim cestama.</p>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <a class="" href="index.html">Sve</a>
+            <a class="" href="granicni_prijelazi.html">Granični prijelazi</a>
+            <a class="" href="autoceste.html">Autoceste</a>
+            <a class="active-nav" href="drzavne_ceste.html">Državne ceste</a>
+            <a class="" href="trajekti.html">Trajekti</a>
+            <a class="" href="mostovi.html">Mostovi</a>
+        </div>
+    </nav>
+
+    <main>
+        <label for="search-input">Pretraži:</label>
+        <input type="search" id="search-input" placeholder="Npr. Bajakovo">
+        <button id="clear-search">Clear</button>
+        <div>
+            <img loading="lazy" title="Zagreb - Avenija Dubrovnik" src="https://m.hak.hr/cam.asp?id=301" alt="Zagreb - Avenija Dubrovnik" width="352" height="198">
+            <img loading="lazy" title="Pelješki most (Komarna)" src="https://m.hak.hr/cam.asp?id=965" alt="Pelješki most (Komarna)" width="352" height="198">
+            <img loading="lazy" title="Zagreb - Avenija Dubrovnik" src="https://m.hak.hr/cam.asp?id=300" alt="Zagreb - Avenija Dubrovnik" width="352" height="198">
+            <img loading="lazy" title="Korenica" src="https://m.hak.hr/cam.asp?id=81" alt="Korenica" width="352" height="198">
+            <img loading="lazy" title="Pelješki most (Blaca)" src="https://m.hak.hr/cam.asp?id=971" alt="Pelješki most (Blaca)" width="352" height="198">
+            <img loading="lazy" title="Brijesta" src="https://m.hak.hr/cam.asp?id=972" alt="Brijesta" width="352" height="198">
+            <img loading="lazy" title="Duboka" src="https://m.hak.hr/cam.asp?id=970" alt="Duboka" width="352" height="198">
+            <img loading="lazy" title="Kamenice jug" src="https://m.hak.hr/cam.asp?id=974" alt="Kamenice jug" width="352" height="198">
+            <img loading="lazy" title="Kamenice sjever" src="https://m.hak.hr/cam.asp?id=973" alt="Kamenice sjever" width="352" height="198">
+            <img loading="lazy" title="Međak" src="https://m.hak.hr/cam.asp?id=457" alt="Međak" width="352" height="198">
+            <img loading="lazy" title="Petrovac" src="https://m.hak.hr/cam.asp?id=460" alt="Petrovac" width="352" height="198">
+            <img loading="lazy" title="Tunel Sveti Ilija" src="https://m.hak.hr/cam.asp?id=231" alt="Tunel Sveti Ilija" width="352" height="198">
+            <img loading="lazy" title="Tunel Sveti Ilija" src="https://m.hak.hr/cam.asp?id=232" alt="Tunel Sveti Ilija" width="352" height="198">
+            <img loading="lazy" title="Tunel Sveti Ilija" src="https://m.hak.hr/cam.asp?id=233" alt="Tunel Sveti Ilija" width="352" height="198">
+            <img loading="lazy" title="Tunel Sveti Ilija - nadvožnjak Bast" src="https://m.hak.hr/cam.asp?id=230" alt="Tunel Sveti Ilija - nadvožnjak Bast" width="352" height="198">
+            <img loading="lazy" title="Čeveljuša" src="https://m.hak.hr/cam.asp?id=458" alt="Čeveljuša" width="352" height="198">
+        </div>
+    </main>
+
+     <footer>
+     </footer>
+
+     <div id="modal-image-cont">
+         <span id="close-modal">&times;</span>
+         <img id="modal-image" />
+     </div>
+
+    <script>
+         document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const clearSearch = document.getElementById('clear-search');
+            const images = document.querySelectorAll('main div img');
+            const modal = document.getElementById('modal-image-cont');
+            const modalImg = document.getElementById('modal-image');
+            const closeModal = document.getElementById('close-modal');
+
+            function normalize(text) {
+                return text.toLowerCase()
+                    .replace(/č/g, 'c')
+                    .replace(/ć/g, 'c')
+                    .replace(/đ/g, 'd')
+                    .replace(/š/g, 's')
+                    .replace(/ž/g, 'z');
+            }
+
+            function openModal(src, alt, title) {
+                modal.style.display = 'block';
+                modalImg.src = src;
+                modalImg.alt = alt;
+                modalImg.title = title;
+            }
+
+            function closeModalFunc() {
+                modal.style.display = 'none';
+            }
+
+            if (window.innerWidth >= 726) {
+                images.forEach(img => {
+                    img.addEventListener('click', function() {
+                        if (img.style.display !== 'none') {
+                            openModal(img.src, img.alt, img.title);
+                        }
+                    });
+                });
+            }
+
+            closeModal.addEventListener('click', closeModalFunc);
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModalFunc();
+                }
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeModalFunc();
+                }
+            });
+
+            clearSearch.addEventListener('click', function() {
+                searchInput.value = '';
+                searchInput.dispatchEvent(new Event('input'));
+            });
+
+            searchInput.addEventListener('input', function() {
+                const query = normalize(this.value);
+                images.forEach(img => {
+                    const title = normalize(img.getAttribute('title') || '');
+                    const display = query === '' || title.includes(query) ? 'inline' : 'none';
+                    img.style.display = display;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
