@@ -1,14 +1,16 @@
 
-from urllib.request import urlopen
+from urllib.request import urlopen, Request
 import os
 
 DEBUG = int(os.environ.get("DEBUG", 0))
 COUNT = int(os.environ.get("COUNT", 1))
+UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
 os.makedirs("build", exist_ok=True)
 
 print("Fetching cams metadata...")
 import json
-with urlopen("https://api.hak.hr/rest/2.8/webcams/?token=9ba354b85afbd2") as response:
+req = Request("https://api.hak.hr/rest/2.8/webcams/?token=9ba354b85afbd2", headers={"User-Agent": UA})
+with urlopen(req) as response:
     ctgs = json.loads(response.read().decode())
 cams = []
 for ctg in ctgs:
@@ -35,7 +37,8 @@ if COUNT > 0:
     model.to(device)
     class_ids = [k for k, v in model.names.items() if v in ["car", "bus", "truck"]]
     for i, cam in enumerate(cams, start=1):
-        with urlopen(cam["url"]) as response:
+        req = Request(cam["url"], headers={"User-Agent": UA})
+        with urlopen(req) as response:
             image = response.read()
         image_array = np.frombuffer(image, np.uint8)
         image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
