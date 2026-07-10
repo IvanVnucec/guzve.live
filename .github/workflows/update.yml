@@ -49,7 +49,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Update cams data [skip ci]"
+            git commit -m "update data"
             git push
           fi
 
